@@ -8,16 +8,8 @@
 </head>
 <body>
   <header class="top-bar">
-    <button class="menu-button" type="button" aria-label="Открыть меню">☰</button>
-    <nav class="top-nav" aria-label="Основная навигация">
-      <a class="active" href="#">Меню</a>
-      <a href="#">Заказ № 2538</a>
-      <a href="#">Развлечения</a>
-    </nav>
-    <div class="header-actions">
-      <span class="language">RU</span>
-      <span class="search-icon" aria-hidden="true">🔍</span>
-    </div>
+    <h1 class="app-title">Меню кафе</h1>
+    <div class="order-counter">В заказе: <span id="orderCount">0</span></div>
   </header>
 
   <main class="page">
@@ -55,6 +47,8 @@
     <p id="emptyMessage" class="empty-message">Ничего не найдено. Попробуйте изменить фильтры.</p>
   </main>
 
-  <script src="script.js"></script>
+  <script src="data.js"></script>
+  <script src="logic.js"></script>
+  <script src="ui.js"></script>
 </body>
 </html>
