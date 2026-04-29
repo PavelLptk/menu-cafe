@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Интерактивное меню кафе</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top-bar">
+    <button class="menu-button" type="button" aria-label="Открыть меню">☰</button>
+    <nav class="top-nav" aria-label="Основная навигация">
+      <a class="active" href="#">Меню</a>
+      <a href="#">Заказ № 2538</a>
+      <a href="#">Развлечения</a>
+    </nav>
+    <div class="header-actions">
+      <span class="language">RU</span>
+      <span class="search-icon" aria-hidden="true">🔍</span>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="breadcrumbs">
+      <span>Меню ресторана</span>
+      <span>›</span>
+      <span id="currentCategory">Все блюда</span>
+    </div>
+
+    <section class="filters" aria-label="Фильтры меню">
+      <label class="search-field">
+        <span>Поиск</span>
+        <input id="searchInput" type="search" placeholder="Например: чизкейк">
+      </label>
+
+      <label>
+        <span>Категория</span>
+        <select id="categorySelect">
+          <option value="all">Все блюда</option>
+        </select>
+      </label>
+
+      <label>
+        <span>Цена</span>
+        <select id="priceSelect">
+          <option value="all">Любая</option>
+          <option value="cheap">До 150 RUB</option>
+          <option value="middle">150–250 RUB</option>
+          <option value="expensive">Дороже 250 RUB</option>
+        </select>
+      </label>
+    </section>
+
+    <section id="menuGrid" class="menu-grid" aria-label="Список блюд"></section>
+    <p id="emptyMessage" class="empty-message">Ничего не найдено. Попробуйте изменить фильтры.</p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
