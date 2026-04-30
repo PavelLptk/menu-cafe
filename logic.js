@@ -1,6 +1,7 @@
 // Логика не работает с HTML. Она получает данные и возвращает результат.
 
 function getCategories(menuItems) {
+  // Set убирает повторяющиеся категории, например несколько блюд из "Десерты".
   return [...new Set(menuItems.map((dish) => dish.category))];
 }
 
@@ -24,6 +25,7 @@ function filterDishes(menuItems, filters) {
   const searchText = filters.searchText.trim().toLowerCase();
 
   return menuItems.filter((dish) => {
+    // Блюдо остаётся в списке, только если подходит под все выбранные фильтры.
     const matchesSearch = dish.name.toLowerCase().includes(searchText);
     const matchesCategory = filters.category === "all" || dish.category === filters.category;
     const matchesPrice = isDishInSelectedPrice(dish, filters.price);

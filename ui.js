@@ -8,6 +8,7 @@ const priceSelect = document.querySelector("#priceSelect");
 const currentCategory = document.querySelector("#currentCategory");
 const orderCountElement = document.querySelector("#orderCount");
 
+// Счётчик хранится в переменной, а на странице показывается в orderCountElement.
 let orderCount = 0;
 
 function fillCategories() {
@@ -23,6 +24,7 @@ function fillCategories() {
 }
 
 function getFiltersFromPage() {
+  // Собираем текущие значения фильтров со страницы в один объект.
   return {
     searchText: searchInput.value,
     category: categorySelect.value,
@@ -52,6 +54,7 @@ function renderMenu() {
   const filters = getFiltersFromPage();
   const filteredDishes = filterDishes(dishes, filters);
 
+  // Перед новой отрисовкой очищаем старые карточки.
   menuGrid.innerHTML = "";
 
   filteredDishes.forEach((dish) => {
@@ -83,5 +86,6 @@ menuGrid.addEventListener("click", (event) => {
   addDishToOrder(orderButton.dataset.dishName);
 });
 
+// Старт приложения: сначала заполняем категории, потом показываем меню.
 fillCategories();
 renderMenu();
