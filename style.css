@@ -131,6 +131,12 @@ body {
   font-weight: 700;
 }
 
+.dish-description {
+  margin: 0 0 8px;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
 .dish-price {
   margin: 0;
   font-size: 18px;

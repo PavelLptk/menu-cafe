@@ -43,6 +43,7 @@ function createDishCard(dish) {
     <div class="dish-info">
       <div>
         <h2 class="dish-name">${dish.name}</h2>
+        <p class="dish-description">${dish.description}</p>
         <p class="dish-price">${dish.price} RUB</p>
       </div>
       <button class="order-button" type="button" data-dish-name="${dish.name}">Заказать</button>
