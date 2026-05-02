@@ -5,6 +5,7 @@ const emptyMessage = document.querySelector("#emptyMessage");
 const searchInput = document.querySelector("#searchInput");
 const categorySelect = document.querySelector("#categorySelect");
 const priceSelect = document.querySelector("#priceSelect");
+const sortSelect = document.querySelector("#sortSelect");
 const currentCategory = document.querySelector("#currentCategory");
 const orderCountElement = document.querySelector("#orderCount");
 
@@ -28,7 +29,8 @@ function getFiltersFromPage() {
   return {
     searchText: searchInput.value,
     category: categorySelect.value,
-    price: priceSelect.value
+    price: priceSelect.value,
+    sort: sortSelect.value
   };
 }
 
@@ -53,15 +55,16 @@ function createDishCard(dish) {
 function renderMenu() {
   const filters = getFiltersFromPage();
   const filteredDishes = filterDishes(dishes, filters);
+  const sortedDishes = sortDishes(filteredDishes, filters.sort);
 
   // Перед новой отрисовкой очищаем старые карточки.
   menuGrid.innerHTML = "";
 
-  filteredDishes.forEach((dish) => {
+  sortedDishes.forEach((dish) => {
     menuGrid.append(createDishCard(dish));
   });
 
-  emptyMessage.classList.toggle("visible", filteredDishes.length === 0);
+  emptyMessage.classList.toggle("visible", sortedDishes.length === 0);
   currentCategory.textContent = filters.category === "all" ? "Все блюда" : filters.category;
 }
 
@@ -74,6 +77,7 @@ function addDishToOrder(dishName) {
 searchInput.addEventListener("input", renderMenu);
 categorySelect.addEventListener("change", renderMenu);
 priceSelect.addEventListener("change", renderMenu);
+sortSelect.addEventListener("change", renderMenu);
 
 // Один обработчик на всю сетку удобнее, чем добавлять обработчик каждой кнопке отдельно.
 menuGrid.addEventListener("click", (event) => {

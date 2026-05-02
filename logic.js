@@ -33,3 +33,25 @@ function filterDishes(menuItems, filters) {
     return matchesSearch && matchesCategory && matchesPrice;
   });
 }
+
+function sortDishes(menuItems, sortType) {
+  const sortedItems = [...menuItems];
+
+  if (sortType === "name-asc") {
+    return sortedItems.sort((firstDish, secondDish) => firstDish.name.localeCompare(secondDish.name, "ru"));
+  }
+
+  if (sortType === "name-desc") {
+    return sortedItems.sort((firstDish, secondDish) => secondDish.name.localeCompare(firstDish.name, "ru"));
+  }
+
+  if (sortType === "price-asc") {
+    return sortedItems.sort((firstDish, secondDish) => firstDish.price - secondDish.price);
+  }
+
+  if (sortType === "price-desc") {
+    return sortedItems.sort((firstDish, secondDish) => secondDish.price - firstDish.price);
+  }
+
+  return sortedItems;
+}
