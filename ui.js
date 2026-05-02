@@ -37,6 +37,7 @@ function getFiltersFromPage() {
 function createDishCard(dish) {
   const card = document.createElement("article");
   card.className = "dish-card";
+  card.tabIndex = 0;
 
   card.innerHTML = `
     <img src="${dish.image}" alt="${dish.name}" loading="lazy">
@@ -84,11 +85,18 @@ sortSelect.addEventListener("change", renderMenu);
 menuGrid.addEventListener("click", (event) => {
   const orderButton = event.target.closest(".order-button");
 
-  if (!orderButton) {
+  if (orderButton) {
+    addDishToOrder(orderButton.dataset.dishName);
     return;
   }
 
-  addDishToOrder(orderButton.dataset.dishName);
+  const dishCard = event.target.closest(".dish-card");
+
+  if (!dishCard) {
+    return;
+  }
+
+  dishCard.classList.toggle("show-description");
 });
 
 // Старт приложения: сначала заполняем категории, потом показываем меню.

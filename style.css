@@ -96,6 +96,7 @@ body {
   border-radius: 2px;
   background: #ddd;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 }
 
 .dish-card img {
@@ -132,9 +133,21 @@ body {
 }
 
 .dish-description {
-  margin: 0 0 8px;
+  max-height: 0;
+  margin: 0;
+  overflow: hidden;
+  opacity: 0;
   font-size: 13px;
   line-height: 1.35;
+  transition: max-height 0.25s ease, margin 0.25s ease, opacity 0.25s ease;
+}
+
+.dish-card:hover .dish-description,
+.dish-card:focus .dish-description,
+.dish-card.show-description .dish-description {
+  max-height: 80px;
+  margin: 0 0 8px;
+  opacity: 1;
 }
 
 .dish-price {
