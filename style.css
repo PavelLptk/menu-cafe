@@ -23,6 +23,10 @@ body {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
 }
 
+.order-panel {
+  position: relative;
+}
+
 .app-title {
   margin: 0;
   font-size: 20px;
@@ -30,11 +34,101 @@ body {
 }
 
 .order-counter {
+  border: 0;
   border-radius: 3px;
   padding: 8px 10px;
   background: rgba(255, 255, 255, 0.18);
+  color: inherit;
   font-size: 14px;
   font-weight: 700;
+  cursor: pointer;
+}
+
+.order-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 10;
+  width: 280px;
+  max-height: 320px;
+  overflow: auto;
+  padding: 12px;
+  border-radius: 4px;
+  background: #fff;
+  color: #333;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.order-dropdown-title {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.order-empty-message {
+  margin: 0;
+  color: #777;
+  font-size: 14px;
+}
+
+.order-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.order-list-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid #eee;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.order-list-item:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.remove-order-item-button {
+  margin-left: auto;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: #777;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.remove-order-item-button:hover {
+  color: #333;
+}
+
+.clear-order-button {
+  margin-top: 10px;
+  width: 100%;
+  border: 0;
+  border-radius: 3px;
+  padding: 9px 10px;
+  background: #f56a00;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.clear-order-button:hover {
+  background: #e05f00;
+}
+
+.clear-order-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 .page {
@@ -195,12 +289,22 @@ body {
 }
 
 @media (max-width: 560px) {
+  .top-bar {
+    gap: 10px;
+    height: auto;
+    padding: 10px 12px;
+  }
+
   .app-title {
     font-size: 16px;
   }
 
   .order-counter {
     font-size: 12px;
+  }
+
+  .order-dropdown {
+    width: min(92vw, 320px);
   }
 
   .menu-grid {

@@ -9,7 +9,24 @@
 <body>
   <header class="top-bar">
     <h1 class="app-title">Меню кафе</h1>
-    <div class="order-counter">В заказе: <span id="orderCount">0</span></div>
+    <div class="order-panel">
+      <button
+        id="orderToggleButton"
+        class="order-counter order-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="orderDropdown"
+      >
+        В заказе: <span id="orderCount">0</span>
+      </button>
+
+      <div id="orderDropdown" class="order-dropdown" hidden>
+        <p class="order-dropdown-title">Добавленные блюда</p>
+        <p id="orderEmptyMessage" class="order-empty-message">Пока ничего не добавлено.</p>
+        <ul id="orderList" class="order-list"></ul>
+        <button id="clearOrderButton" class="clear-order-button" type="button">Очистить заказ</button>
+      </div>
+    </div>
   </header>
 
   <main class="page">

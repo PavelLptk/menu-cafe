@@ -6,6 +6,7 @@ function getCategories(menuItems) {
 }
 
 function isDishInSelectedPrice(dish, selectedPrice) {
+  // Выбираем диапазон цены по значению из выпадающего списка.
   if (selectedPrice === "cheap") {
     return dish.price < 150;
   }
@@ -22,10 +23,12 @@ function isDishInSelectedPrice(dish, selectedPrice) {
 }
 
 function matchesDishSearch(dish, searchText) {
+  // Поиск идёт только по названию блюда.
   return dish.name.toLowerCase().includes(searchText);
 }
 
 function matchesDishCategory(dish, selectedCategory) {
+  // Категория проходит, если выбрано "Все блюда" или совпадение точное.
   return selectedCategory === "all" || dish.category === selectedCategory;
 }
 
@@ -45,6 +48,7 @@ function filterDishes(menuItems, filters) {
 function sortDishes(menuItems, sortType) {
   const sortedItems = [...menuItems];
 
+  // Сортировка создаёт копию массива, чтобы не менять исходные данные.
   if (sortType === "name-asc") {
     return sortedItems.sort((firstDish, secondDish) => firstDish.name.localeCompare(secondDish.name, "ru"));
   }
