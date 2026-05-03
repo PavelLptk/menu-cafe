@@ -8,6 +8,7 @@ const categorySelect = document.querySelector("#categorySelect");
 const priceSelect = document.querySelector("#priceSelect");
 const sortSelect = document.querySelector("#sortSelect");
 const currentCategory = document.querySelector("#currentCategory");
+const resultsCountElement = document.querySelector("#resultsCount");
 const orderToggleButton = document.querySelector("#orderToggleButton");
 const orderCountElement = document.querySelector("#orderCount");
 const orderDropdown = document.querySelector("#orderDropdown");
@@ -130,6 +131,7 @@ function renderMenu() {
   const filters = getFiltersFromPage();
   const filteredDishes = filterDishes(dishes, filters);
   const sortedDishes = sortDishes(filteredDishes, filters.sort);
+  const searchText = filters.searchText.trim();
 
   // Перед новой отрисовкой очищаем старые карточки.
   menuGrid.innerHTML = "";
@@ -140,6 +142,13 @@ function renderMenu() {
 
   emptyMessage.classList.toggle("visible", sortedDishes.length === 0);
   currentCategory.textContent = filters.category === "all" ? "Все блюда" : filters.category;
+  if (searchText) {
+    resultsCountElement.hidden = false;
+    resultsCountElement.textContent = `Совпадений: ${sortedDishes.length}`;
+  } else {
+    resultsCountElement.hidden = true;
+    resultsCountElement.textContent = "";
+  }
 }
 
 // Действия с заказом
