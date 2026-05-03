@@ -1,5 +1,6 @@
 // UI отвечает за страницу: элементы, карточки, события и счётчик заказа.
 
+// DOM-элементы
 const menuGrid = document.querySelector("#menuGrid");
 const emptyMessage = document.querySelector("#emptyMessage");
 const searchInput = document.querySelector("#searchInput");
@@ -13,16 +14,18 @@ const orderDropdown = document.querySelector("#orderDropdown");
 const orderList = document.querySelector("#orderList");
 const orderEmptyMessage = document.querySelector("#orderEmptyMessage");
 const clearOrderButton = document.querySelector("#clearOrderButton");
+const checkoutOrderButton = document.querySelector("#checkoutOrderButton");
+const orderItemsTotal = document.querySelector("#orderItemsTotal");
+const orderTotalPrice = document.querySelector("#orderTotalPrice");
 
-// Заказ хранится как список названий блюд, а на странице показывается его длина.
+// Состояние заказа
 const orderItems = [];
 
-// Отдельная функция помогает не дублировать обновление счётчика и состояния кнопки.
+// Вспомогательные функции
 function updateOrderCounter() {
   orderCountElement.textContent = orderItems.length;
 }
 
-// Считаем, сколько раз каждое блюдо добавили, чтобы показывать короткий список без повторов.
 function getOrderSummary() {
   const summary = new Map();
 
@@ -33,60 +36,20 @@ function getOrderSummary() {
   return [...summary.entries()].map(([name, count]) => ({ name, count }));
 }
 
-// Перерисовываем список блюд в dropdown и подстраиваем кнопки под текущее состояние заказа.
-function renderOrderDropdown() {
-  const summary = getOrderSummary();
-
-  updateOrderCounter();
-  orderList.innerHTML = "";
-  orderEmptyMessage.hidden = summary.length > 0;
-  clearOrderButton.disabled = summary.length === 0;
-
-  summary.forEach((item) => {
-    const listItem = document.createElement("li");
-    listItem.className = "order-list-item";
-
-    const itemLabel = document.createElement("span");
-    itemLabel.textContent = item.count === 1 ? item.name : `${item.name} × ${item.count}`;
-
-    const removeButton = document.createElement("button");
-    removeButton.className = "remove-order-item-button";
-    removeButton.type = "button";
-    removeButton.dataset.dishName = item.name;
-    removeButton.setAttribute("aria-label", `Удалить блюдо ${item.name} из заказа`);
-    removeButton.textContent = "×";
-
-    listItem.append(itemLabel, removeButton);
-    orderList.append(listItem);
-  });
+function getDishByName(dishName) {
+  return dishes.find((dish) => dish.name === dishName);
 }
 
-// Открытие и закрытие вынесено в одну функцию, чтобы не дублировать один и тот же код.
+function getOrderTotal() {
+  return orderItems.reduce((total, dishName) => {
+    const dish = getDishByName(dishName);
+    return total + (dish ? dish.price : 0);
+  }, 0);
+}
+
 function setOrderDropdownOpen(isOpen) {
   orderDropdown.hidden = !isOpen;
   orderToggleButton.setAttribute("aria-expanded", String(isOpen));
-}
-
-function toggleOrderDropdown() {
-  setOrderDropdownOpen(orderDropdown.hidden);
-}
-
-function clearOrder() {
-  // Очищаем именно список, а не отдельный счётчик, чтобы состояние всегда было в одном месте.
-  orderItems.length = 0;
-  renderOrderDropdown();
-}
-
-function removeDishFromOrder(dishName) {
-  const itemIndex = orderItems.indexOf(dishName);
-
-  if (itemIndex === -1) {
-    return;
-  }
-
-  // Удаляем только один экземпляр блюда, если оно было добавлено несколько раз.
-  orderItems.splice(itemIndex, 1);
-  renderOrderDropdown();
 }
 
 function fillCategories() {
@@ -109,6 +72,38 @@ function getFiltersFromPage() {
     price: priceSelect.value,
     sort: sortSelect.value
   };
+}
+
+// Отрисовка интерфейса
+function renderOrderDropdown() {
+  const summary = getOrderSummary();
+  const totalPrice = getOrderTotal();
+
+  updateOrderCounter();
+  orderList.innerHTML = "";
+  orderEmptyMessage.hidden = summary.length > 0;
+  clearOrderButton.disabled = summary.length === 0;
+  checkoutOrderButton.disabled = summary.length === 0;
+  orderItemsTotal.textContent = String(orderItems.length);
+  orderTotalPrice.textContent = `${totalPrice} RUB`;
+
+  summary.forEach((item) => {
+    const listItem = document.createElement("li");
+    listItem.className = "order-list-item";
+
+    const itemLabel = document.createElement("span");
+    itemLabel.textContent = item.count === 1 ? item.name : `${item.name} × ${item.count}`;
+
+    const removeButton = document.createElement("button");
+    removeButton.className = "remove-order-item-button";
+    removeButton.type = "button";
+    removeButton.dataset.dishName = item.name;
+    removeButton.setAttribute("aria-label", `Удалить блюдо ${item.name} из заказа`);
+    removeButton.textContent = "×";
+
+    listItem.append(itemLabel, removeButton);
+    orderList.append(listItem);
+  });
 }
 
 function createDishCard(dish) {
@@ -147,18 +142,55 @@ function renderMenu() {
   currentCategory.textContent = filters.category === "all" ? "Все блюда" : filters.category;
 }
 
+// Действия с заказом
+function toggleOrderDropdown() {
+  setOrderDropdownOpen(orderDropdown.hidden);
+}
+
+function clearOrder() {
+  // Очищаем именно список, а не отдельный счётчик, чтобы состояние всегда было в одном месте.
+  orderItems.length = 0;
+  renderOrderDropdown();
+}
+
+function checkoutOrder() {
+  if (orderItems.length === 0) {
+    return;
+  }
+
+  const totalPrice = getOrderTotal();
+
+  alert(`Заказ оформлен. Итоговая сумма: ${totalPrice} RUB.`);
+  clearOrder();
+  setOrderDropdownOpen(false);
+}
+
+function removeDishFromOrder(dishName) {
+  const itemIndex = orderItems.indexOf(dishName);
+
+  if (itemIndex === -1) {
+    return;
+  }
+
+  // Удаляем только один экземпляр блюда, если оно было добавлено несколько раз.
+  orderItems.splice(itemIndex, 1);
+  renderOrderDropdown();
+}
+
 function addDishToOrder(dishName) {
   orderItems.push(dishName);
   renderOrderDropdown();
   alert(`Блюдо "${dishName}" добавлено в заказ.`);
 }
 
+// Обработчики событий
 searchInput.addEventListener("input", renderMenu);
 categorySelect.addEventListener("change", renderMenu);
 priceSelect.addEventListener("change", renderMenu);
 sortSelect.addEventListener("change", renderMenu);
 orderToggleButton.addEventListener("click", toggleOrderDropdown);
 clearOrderButton.addEventListener("click", clearOrder);
+checkoutOrderButton.addEventListener("click", checkoutOrder);
 
 document.addEventListener("click", (event) => {
   // Если список закрыт, ничего делать не нужно.
@@ -205,7 +237,7 @@ menuGrid.addEventListener("click", (event) => {
   dishCard.classList.toggle("show-description");
 });
 
-// Старт приложения: сначала заполняем категории, потом показываем меню.
+// Инициализация
 fillCategories();
 renderMenu();
 renderOrderDropdown();

@@ -23,8 +23,11 @@ function isDishInSelectedPrice(dish, selectedPrice) {
 }
 
 function matchesDishSearch(dish, searchText) {
-  // Поиск идёт только по названию блюда.
-  return dish.name.toLowerCase().includes(searchText);
+  // Поиск идёт по названию и описанию блюда.
+  const searchInName = dish.name.toLowerCase().includes(searchText);
+  const searchInDescription = dish.description.toLowerCase().includes(searchText);
+
+  return searchInName || searchInDescription;
 }
 
 function matchesDishCategory(dish, selectedCategory) {

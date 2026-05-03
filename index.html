@@ -24,6 +24,17 @@
         <p class="order-dropdown-title">Добавленные блюда</p>
         <p id="orderEmptyMessage" class="order-empty-message">Пока ничего не добавлено.</p>
         <ul id="orderList" class="order-list"></ul>
+        <div class="order-summary" aria-live="polite">
+          <p class="order-summary-row">
+            <span>Позиций</span>
+            <strong id="orderItemsTotal">0</strong>
+          </p>
+          <p class="order-summary-row">
+            <span>Сумма</span>
+            <strong id="orderTotalPrice">0 RUB</strong>
+          </p>
+        </div>
+        <button id="checkoutOrderButton" class="checkout-order-button" type="button">Оформить заказ</button>
         <button id="clearOrderButton" class="clear-order-button" type="button">Очистить заказ</button>
       </div>
     </div>
