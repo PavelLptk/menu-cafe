@@ -41,6 +41,10 @@ function getDishByName(dishName) {
   return dishes.find((dish) => dish.name === dishName);
 }
 
+function isDishInOrder(dishName) {
+  return orderItems.includes(dishName);
+}
+
 function getOrderTotal() {
   return orderItems.reduce((total, dishName) => {
     const dish = getDishByName(dishName);
@@ -109,7 +113,7 @@ function renderOrderDropdown() {
 
 function createDishCard(dish) {
   const card = document.createElement("article");
-  card.className = "dish-card";
+  card.className = isDishInOrder(dish.name) ? "dish-card in-order" : "dish-card";
   card.tabIndex = 0;
 
   card.innerHTML = `
@@ -160,6 +164,7 @@ function clearOrder() {
   // Очищаем именно список, а не отдельный счётчик, чтобы состояние всегда было в одном месте.
   orderItems.length = 0;
   renderOrderDropdown();
+  renderMenu();
 }
 
 function checkoutOrder() {
@@ -184,11 +189,13 @@ function removeDishFromOrder(dishName) {
   // Удаляем только один экземпляр блюда, если оно было добавлено несколько раз.
   orderItems.splice(itemIndex, 1);
   renderOrderDropdown();
+  renderMenu();
 }
 
 function addDishToOrder(dishName) {
   orderItems.push(dishName);
   renderOrderDropdown();
+  renderMenu();
   alert(`Блюдо "${dishName}" добавлено в заказ.`);
 }
 
